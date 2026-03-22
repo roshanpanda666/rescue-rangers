@@ -165,7 +165,7 @@ export default function MechanicPage() {
     return (
       <div className="gradient-bg" style={{ minHeight: '100vh' }}>
         <nav className="navbar">
-          <Link href="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <Link href="/" className="app-logo" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '12px' }}>
             <div style={{
               width: '36px', height: '36px', borderRadius: '10px',
               background: 'linear-gradient(135deg, #FF6B00, #FF8A33)',
@@ -231,7 +231,7 @@ export default function MechanicPage() {
     return (
       <div className="gradient-bg" style={{ minHeight: '100vh' }}>
         <nav className="navbar">
-          <Link href="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <Link href="/" className="app-logo" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '12px' }}>
             <div style={{
               width: '36px', height: '36px', borderRadius: '10px',
               background: 'linear-gradient(135deg, #FF6B00, #FF8A33)',

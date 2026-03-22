@@ -35,7 +35,10 @@ body {
 }
 
 /* Scrollbar */
-::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar { width: 6px; display: none; }
+@media (min-width: 768px) {
+  ::-webkit-scrollbar { display: block; }
+}
 ::-webkit-scrollbar-track { background: var(--color-dark-bg); }
 ::-webkit-scrollbar-thumb { background: var(--color-primary); border-radius: 3px; }
 
@@ -78,9 +81,8 @@ body {
 }
 
 /* Buttons */
-.btn-primary {
-  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
-  color: white;
+.btn-primary, .btn-secondary, .btn-danger, .btn-success {
+  font-family: var(--font-sans);
   font-weight: 600;
   padding: 12px 28px;
   border-radius: 12px;
@@ -88,8 +90,22 @@ body {
   cursor: pointer;
   font-size: 15px;
   transition: all 0.3s ease;
+  display: inline-block;
+  text-align: center;
+}
+
+@media (max-width: 640px) {
+  .btn-primary, .btn-secondary, .btn-danger, .btn-success {
+    padding: 10px 20px;
+    font-size: 14px;
+    width: 100%;
+  }
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
+  color: white;
   box-shadow: 0 4px 15px rgba(255, 107, 0, 0.3);
-  font-family: var(--font-sans);
 }
 
 .btn-primary:hover {
@@ -104,14 +120,7 @@ body {
 .btn-secondary {
   background: rgba(255, 255, 255, 0.06);
   color: var(--color-text-primary);
-  font-weight: 500;
-  padding: 12px 28px;
-  border-radius: 12px;
   border: 1px solid rgba(255, 255, 255, 0.1);
-  cursor: pointer;
-  font-size: 15px;
-  transition: all 0.3s ease;
-  font-family: var(--font-sans);
 }
 
 .btn-secondary:hover {
@@ -122,29 +131,13 @@ body {
 .btn-danger {
   background: linear-gradient(135deg, var(--color-danger) 0%, #ff5a8a 100%);
   color: white;
-  font-weight: 600;
-  padding: 12px 28px;
-  border-radius: 12px;
-  border: none;
-  cursor: pointer;
-  font-size: 15px;
-  transition: all 0.3s ease;
   box-shadow: 0 4px 15px rgba(255, 61, 113, 0.3);
-  font-family: var(--font-sans);
 }
 
 .btn-success {
   background: linear-gradient(135deg, var(--color-success) 0%, #33e0a5 100%);
   color: #0D0D0D;
-  font-weight: 600;
-  padding: 12px 28px;
-  border-radius: 12px;
-  border: none;
-  cursor: pointer;
-  font-size: 15px;
-  transition: all 0.3s ease;
   box-shadow: 0 4px 15px rgba(0, 214, 143, 0.3);
-  font-family: var(--font-sans);
 }
 
 /* Inputs */
@@ -155,10 +148,16 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 12px;
   color: var(--color-text-primary);
-  font-size: 15px;
+  font-size: 16px; /* 16px prevents iOS zoom on focus */
   font-family: var(--font-sans);
   transition: all 0.3s ease;
   outline: none;
+}
+
+@media (min-width: 768px) {
+  .input-field {
+    font-size: 15px;
+  }
 }
 
 .input-field:focus {
@@ -192,6 +191,14 @@ body {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+@media (max-width: 480px) {
+  .badge {
+    padding: 3px 10px;
+    font-size: 11px;
+  }
 }
 
 .badge-free {
@@ -255,6 +262,14 @@ body {
   animation: fadeIn 0.6s ease-out forwards;
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-in {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
 .animate-slide-in {
   animation: slideInRight 0.5s ease-out forwards;
 }
@@ -284,10 +299,26 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: rgba(13, 13, 13, 0.8);
+  background: rgba(13, 13, 13, 0.85);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+@media (max-width: 640px) {
+  .navbar {
+    padding: 12px 16px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  
+  .navbar .app-logo span {
+    display: none; /* Hide text on very small screens to save space */
+  }
+  
+  .navbar .app-logo span.mobile-show {
+    display: inline-block;
+  }
 }
 
 /* Card hover effect */
@@ -295,10 +326,12 @@ body {
   transition: all 0.3s ease;
 }
 
-.card-hover:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
-  border-color: rgba(255, 107, 0, 0.3);
+@media (min-width: 1024px) {
+  .card-hover:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+    border-color: rgba(255, 107, 0, 0.3);
+  }
 }
 
 /* Toggle switch */
@@ -310,6 +343,7 @@ body {
   border-radius: 13px;
   cursor: pointer;
   transition: all 0.3s ease;
+  flex-shrink: 0;
 }
 
 .toggle-switch.active {
@@ -343,6 +377,14 @@ body {
 @media (max-width: 1024px) {
   .dashboard-grid {
     grid-template-columns: 1fr;
+    padding: 16px;
+  }
+}
+
+@media (max-width: 640px) {
+  .dashboard-grid {
+    padding: 12px;
+    gap: 16px;
   }
 }
 
@@ -353,12 +395,14 @@ body {
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.8);
   backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   z-index: 200;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 16px;
 }
 
 /* Toast/Notification */
@@ -372,6 +416,16 @@ body {
   font-weight: 500;
   z-index: 300;
   animation: slideInRight 0.3s ease-out;
+  max-width: calc(100vw - 48px);
+}
+
+@media (max-width: 640px) {
+  .toast {
+    bottom: 16px;
+    left: 16px;
+    right: 16px;
+    text-align: center;
+  }
 }
 
 .toast-success {
@@ -420,4 +474,14 @@ select.input-field option {
 textarea.input-field {
   min-height: 100px;
   resize: vertical;
+}
+
+/* Utility classes for responsive layouts */
+@media (max-width: 640px) {
+  .mobile-col { flex-direction: column !important; }
+  .mobile-w-full { width: 100% !important; }
+  .mobile-text-center { text-align: center !important; }
+  .mobile-mt-4 { margin-top: 16px !important; }
+  .mobile-gap-8 { gap: 8px !important; }
+  .mobile-items-start { align-items: flex-start !important; }
 }

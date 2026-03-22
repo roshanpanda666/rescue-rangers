@@ -51,7 +51,7 @@ export default function Home() {
       </nav>
 
       {/* Hero Section */}
-      <main style={{ paddingTop: '120px', maxWidth: '1200px', margin: '0 auto', padding: '120px 32px 60px' }}>
+      <main style={{ paddingTop: '120px', maxWidth: '1200px', margin: '0 auto', padding: '120px 24px 60px' }}>
         <div style={{ textAlign: 'center', maxWidth: '800px', margin: '0 auto' }}>
           <div className={`${mounted ? 'animate-fade-in stagger-1' : ''}`}>
             <span style={{
@@ -72,7 +72,7 @@ export default function Home() {
           </div>
 
           <h1 className={`${mounted ? 'animate-fade-in stagger-2' : ''}`} style={{
-            fontSize: 'clamp(40px, 7vw, 72px)',
+            fontSize: 'var(--text-4xl, clamp(40px, 7vw, 72px))',
             fontWeight: '800',
             fontFamily: 'var(--font-heading)',
             lineHeight: '1.1',
@@ -90,7 +90,7 @@ export default function Home() {
           </h1>
 
           <p className={`${mounted ? 'animate-fade-in stagger-3' : ''}`} style={{
-            fontSize: '18px',
+            fontSize: 'clamp(16px, 4vw, 18px)',
             color: 'var(--color-text-secondary)',
             lineHeight: '1.7',
             marginBottom: '40px',
@@ -100,14 +100,14 @@ export default function Home() {
             Request a professional mechanic instantly. Our certified technicians are ready to help you get back on the road — anytime, anywhere.
           </p>
 
-          <div className={`${mounted ? 'animate-fade-in stagger-4' : ''}`} style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}>
-            <Link href="/user" style={{ textDecoration: 'none' }}>
-              <button className="btn-primary" style={{ padding: '16px 40px', fontSize: '16px' }}>
+          <div className={`${mounted ? 'animate-fade-in stagger-4' : ''} mobile-col`} style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}>
+            <Link href="/user" className="mobile-w-full" style={{ textDecoration: 'none' }}>
+              <button className="btn-primary mobile-w-full" style={{ padding: '16px 40px', fontSize: '16px' }}>
                 🚗 Request a Mechanic
               </button>
             </Link>
-            <Link href="/mechanic" style={{ textDecoration: 'none' }}>
-              <button className="btn-secondary" style={{ padding: '16px 40px', fontSize: '16px' }}>
+            <Link href="/mechanic" className="mobile-w-full" style={{ textDecoration: 'none' }}>
+              <button className="btn-secondary mobile-w-full" style={{ padding: '16px 40px', fontSize: '16px' }}>
                 🔧 Join as Mechanic
               </button>
             </Link>
@@ -263,11 +263,11 @@ export default function Home() {
         {/* Footer */}
         <footer style={{
           textAlign: 'center',
-          padding: '60px 0 30px',
+          padding: '40px 24px 30px',
           color: 'var(--color-text-muted)',
           fontSize: '14px',
         }}>
-          <p>© 2026 Steady Gear. All rights reserved.</p>
+          <p>© 2026 Rescue Rangers. All rights reserved.</p>
         </footer>
       </main>
     </div>
