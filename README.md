@@ -1,4 +1,4 @@
-# Steady Gear — Vehicle Breakdown Assistance
+# Rescue Rangers — Vehicle Breakdown Assistance
 
 A modern web application for requesting roadside mechanic assistance. Users can request help, managers coordinate responses, and mechanics get assigned to jobs.
 

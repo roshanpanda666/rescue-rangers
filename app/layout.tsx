@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Steady Gear — Roadside Assistance",
+  title: "Rescue Rangers — Roadside Assistance",
   description: "Get emergency vehicle breakdown assistance from professional mechanics. Request help, track your mechanic, and get back on the road.",
   keywords: "roadside assistance, vehicle breakdown, mechanic, emergency, car repair",
 };

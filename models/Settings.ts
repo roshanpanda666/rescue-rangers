@@ -14,7 +14,7 @@ const SettingsSchema: Schema = new Schema({
     theme: { type: String, default: 'orange' },
     accentColor: { type: String, default: '#FF6B00' },
     glassIntensity: { type: Number, default: 0.15 },
-    heroTitle: { type: String, default: 'Steady Gear' },
+    heroTitle: { type: String, default: 'Rescue Rangers' },
     heroSubtitle: { type: String, default: 'Roadside assistance at your fingertips' },
     announcement: { type: String, default: '' },
     updatedAt: { type: Date, default: Date.now },

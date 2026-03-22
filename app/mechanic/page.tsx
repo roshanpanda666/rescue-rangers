@@ -175,7 +175,7 @@ export default function MechanicPage() {
               fontSize: '20px', fontWeight: '700', fontFamily: 'var(--font-heading)',
               background: 'linear-gradient(135deg, #FF6B00, #FF8A33)',
               WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
-            }}>Steady Gear</span>
+            }}>Rescue Rangers</span>
           </Link>
         </nav>
 
@@ -241,7 +241,7 @@ export default function MechanicPage() {
               fontSize: '20px', fontWeight: '700', fontFamily: 'var(--font-heading)',
               background: 'linear-gradient(135deg, #FF6B00, #FF8A33)',
               WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
-            }}>Steady Gear</span>
+            }}>Rescue Rangers</span>
           </Link>
         </nav>
 
@@ -331,7 +331,7 @@ export default function MechanicPage() {
             fontSize: '20px', fontWeight: '700', fontFamily: 'var(--font-heading)',
             background: 'linear-gradient(135deg, #FF6B00, #FF8A33)',
             WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
-          }}>Steady Gear</span>
+          }}>Rescue Rangers</span>
         </Link>
         <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
           <span className={`badge ${mechanic?.status === 'FREE' ? 'badge-free' : 'badge-busy'}`}>

@@ -50,7 +50,7 @@ export default function ManagerPage() {
   const [requests, setRequests] = useState<RequestData[]>([]);
   const [mechanics, setMechanics] = useState<MechanicData[]>([]);
   const [settings, setSettings] = useState<SettingsData>({
-    theme: 'orange', accentColor: '#FF6B00', heroTitle: 'Steady Gear',
+    theme: 'orange', accentColor: '#FF6B00', heroTitle: 'Rescue Rangers',
     heroSubtitle: 'Roadside assistance at your fingertips', announcement: '',
   });
   const [activeTab, setActiveTab] = useState<'requests' | 'settings'>('requests');
@@ -182,7 +182,7 @@ export default function ManagerPage() {
               fontSize: '20px', fontWeight: '700', fontFamily: 'var(--font-heading)',
               background: 'linear-gradient(135deg, #FF6B00, #FF8A33)',
               WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
-            }}>Steady Gear</span>
+            }}>Rescue Rangers</span>
           </Link>
         </nav>
 
@@ -253,7 +253,7 @@ export default function ManagerPage() {
             fontSize: '20px', fontWeight: '700', fontFamily: 'var(--font-heading)',
             background: 'linear-gradient(135deg, #FF6B00, #FF8A33)',
             WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
-          }}>Steady Gear</span>
+          }}>Rescue Rangers</span>
         </Link>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
           <div style={{ display: 'flex', gap: '8px' }}>

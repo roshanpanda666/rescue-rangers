@@ -37,7 +37,7 @@ export default function Home() {
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
           }}>
-            Steady Gear
+            Rescue Rangers
           </span>
         </div>
         <div style={{ display: 'flex', gap: '12px' }}>

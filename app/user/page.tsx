@@ -163,7 +163,7 @@ export default function UserPage() {
               fontSize: '20px', fontWeight: '700', fontFamily: 'var(--font-heading)',
               background: 'linear-gradient(135deg, #FF6B00, #FF8A33)',
               WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
-            }}>Steady Gear</span>
+            }}>Rescue Rangers</span>
           </Link>
         </nav>
 
@@ -179,7 +179,7 @@ export default function UserPage() {
               textAlign: 'center', color: 'var(--color-text-secondary)',
               marginBottom: '32px', fontSize: '15px',
             }}>
-              {isLogin ? 'Sign in to request mechanic assistance' : 'Join Steady Gear to get roadside help'}
+              {isLogin ? 'Sign in to request mechanic assistance' : 'Join Rescue Rangers to get roadside help'}
             </p>
 
             {error && (
@@ -255,7 +255,7 @@ export default function UserPage() {
             fontSize: '20px', fontWeight: '700', fontFamily: 'var(--font-heading)',
             background: 'linear-gradient(135deg, #FF6B00, #FF8A33)',
             WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
-          }}>Steady Gear</span>
+          }}>Rescue Rangers</span>
         </Link>
         <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
           <span style={{ fontSize: '14px', color: 'var(--color-text-secondary)' }}>
