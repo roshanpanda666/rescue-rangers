@@ -100,15 +100,16 @@ export default function UserPage() {
     setUploading(true);
 
     try {
-      const formData = new FormData();
-      formData.append('file', file);
-      const res = await fetch('/api/upload', { method: 'POST', body: formData });
-      const data = await res.json();
-      if (data.success) {
-        setRequestForm(prev => ({ ...prev, photoUrl: data.url }));
-      }
-    } catch { /* ignore */ }
-    setUploading(false);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const base64String = reader.result as string;
+        setRequestForm(prev => ({ ...prev, photoUrl: base64String }));
+        setUploading(false);
+      };
+      reader.readAsDataURL(file);
+    } catch {
+      setUploading(false);
+    }
   };
 
   const handleSubmitRequest = async (e: React.FormEvent) => {
