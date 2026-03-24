@@ -20,6 +20,9 @@ interface RequestData {
   description: string;
   status: string;
   assignedMechanicName: string;
+  paymentMethod: string;
+  paymentStatus: string;
+  paymentAmount: number;
   createdAt: string;
 }
 
@@ -31,6 +34,8 @@ export default function UserPage() {
   const [success, setSuccess] = useState('');
   const [requests, setRequests] = useState<RequestData[]>([]);
   const [showRequestForm, setShowRequestForm] = useState(false);
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<'cash' | 'card' | 'upi'>('card');
 
   // Auth form
   const [authForm, setAuthForm] = useState({ name: '', email: '', password: '', phone: '' });
@@ -109,6 +114,13 @@ export default function UserPage() {
   const handleSubmitRequest = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!user) return;
+    // Instead of submitting directly, show the payment modal
+    setShowRequestForm(false);
+    setShowPaymentModal(true);
+  };
+
+  const handleCompletePayment = async () => {
+    if (!user) return;
     setLoading(true);
     setError('');
 
@@ -122,14 +134,18 @@ export default function UserPage() {
           userPhone: user.phone,
           userEmail: user.email,
           ...requestForm,
+          paymentMethod: selectedPaymentMethod,
+          paymentStatus: 'paid',
+          paymentAmount: 500,
         }),
       });
       const data = await res.json();
 
       if (data.success) {
-        setSuccess('Request submitted! A mechanic will be assigned to you shortly.');
-        setShowRequestForm(false);
+        setSuccess('Payment completed & request submitted! A mechanic will be assigned shortly.');
+        setShowPaymentModal(false);
         setRequestForm({ carModel: '', isElectric: false, location: '', peopleCount: 1, description: '', photoUrl: '' });
+        setSelectedPaymentMethod('card');
         fetchRequests(user.id);
         setTimeout(() => setSuccess(''), 4000);
       } else {
@@ -382,6 +398,109 @@ export default function UserPage() {
           </div>
         )}
 
+        {/* Payment Gateway Modal */}
+        {showPaymentModal && (
+          <div className="overlay" onClick={() => { setShowPaymentModal(false); setShowRequestForm(true); }}>
+            <div className="glass-strong animate-fade-in" style={{ width: '100%', maxWidth: '480px', padding: '36px' }}
+              onClick={e => e.stopPropagation()}>
+              <div style={{ textAlign: 'center', marginBottom: '28px' }}>
+                <div style={{
+                  width: '64px', height: '64px', borderRadius: '16px',
+                  background: 'linear-gradient(135deg, rgba(0, 214, 143, 0.15), rgba(0, 149, 255, 0.15))',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  fontSize: '32px', margin: '0 auto 16px',
+                }}>💳</div>
+                <h2 style={{ fontSize: '22px', fontWeight: '700', fontFamily: 'var(--font-heading)', marginBottom: '4px' }}>
+                  Payment Gateway
+                </h2>
+                <p style={{ color: 'var(--color-text-secondary)', fontSize: '14px' }}>
+                  Complete payment to submit your request
+                </p>
+              </div>
+
+              {/* Amount Display */}
+              <div style={{
+                padding: '20px', borderRadius: '14px', marginBottom: '24px',
+                background: 'linear-gradient(135deg, rgba(255, 107, 0, 0.08), rgba(255, 138, 51, 0.08))',
+                border: '1px solid rgba(255, 107, 0, 0.15)', textAlign: 'center',
+              }}>
+                <p style={{ fontSize: '13px', color: 'var(--color-text-muted)', marginBottom: '4px' }}>Service Fee</p>
+                <p style={{ fontSize: '36px', fontWeight: '800', fontFamily: 'var(--font-heading)', color: 'var(--color-primary)' }}>
+                  ₹500
+                </p>
+                <p style={{ fontSize: '12px', color: 'var(--color-text-muted)', marginTop: '4px' }}>Breakdown assistance charges</p>
+              </div>
+
+              {/* Payment Methods */}
+              <p style={{ fontSize: '14px', fontWeight: '600', marginBottom: '12px', color: 'var(--color-text-secondary)' }}>
+                Select Payment Method
+              </p>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '24px' }}>
+                {[
+                  { id: 'cash' as const, icon: '💵', label: 'Cash', desc: 'Pay with cash on arrival' },
+                  { id: 'card' as const, icon: '💳', label: 'Credit / Debit Card', desc: 'Visa, Mastercard, RuPay' },
+                  { id: 'upi' as const, icon: '📱', label: 'UPI', desc: 'GPay, PhonePe, Paytm' },
+                ].map((method) => (
+                  <div key={method.id}
+                    onClick={() => setSelectedPaymentMethod(method.id)}
+                    style={{
+                      padding: '16px', borderRadius: '12px', cursor: 'pointer',
+                      display: 'flex', alignItems: 'center', gap: '14px',
+                      background: selectedPaymentMethod === method.id
+                        ? 'rgba(255, 107, 0, 0.1)'
+                        : 'rgba(255, 255, 255, 0.03)',
+                      border: selectedPaymentMethod === method.id
+                        ? '2px solid var(--color-primary)'
+                        : '2px solid rgba(255, 255, 255, 0.08)',
+                      transition: 'all 0.2s ease',
+                    }}>
+                    <div style={{
+                      width: '44px', height: '44px', borderRadius: '12px',
+                      background: selectedPaymentMethod === method.id
+                        ? 'rgba(255, 107, 0, 0.15)'
+                        : 'rgba(255, 255, 255, 0.05)',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      fontSize: '22px', transition: 'all 0.2s ease',
+                    }}>{method.icon}</div>
+                    <div style={{ flex: 1 }}>
+                      <p style={{ fontSize: '15px', fontWeight: '600' }}>{method.label}</p>
+                      <p style={{ fontSize: '12px', color: 'var(--color-text-muted)' }}>{method.desc}</p>
+                    </div>
+                    <div style={{
+                      width: '22px', height: '22px', borderRadius: '50%',
+                      border: selectedPaymentMethod === method.id
+                        ? '6px solid var(--color-primary)'
+                        : '2px solid rgba(255, 255, 255, 0.2)',
+                      transition: 'all 0.2s ease',
+                    }} />
+                  </div>
+                ))}
+              </div>
+
+              {/* Action Buttons */}
+              <div style={{ display: 'flex', gap: '12px' }}>
+                <button className="btn-secondary" onClick={() => { setShowPaymentModal(false); setShowRequestForm(true); }}
+                  style={{ flex: 1 }}>
+                  ← Back
+                </button>
+                <button className="btn-primary" onClick={handleCompletePayment}
+                  disabled={loading}
+                  style={{
+                    flex: 2, opacity: loading ? 0.7 : 1,
+                    background: 'linear-gradient(135deg, #00D68F, #00B87A)',
+                  }}>
+                  {loading ? 'Processing...' : '✅ Complete Payment — ₹500'}
+                </button>
+              </div>
+
+              {/* Security Note */}
+              <p style={{ textAlign: 'center', fontSize: '11px', color: 'var(--color-text-muted)', marginTop: '16px' }}>
+                🔒 Secure dummy payment gateway • No real charges
+              </p>
+            </div>
+          </div>
+        )}
+
         {/* Request List */}
         {requests.length === 0 ? (
           <div className="glass" style={{ padding: '60px 32px', textAlign: 'center' }}>
@@ -417,6 +536,21 @@ export default function UserPage() {
                     {req.assignedMechanicName && (
                       <p style={{ fontSize: '14px', color: 'var(--color-primary)', marginTop: '8px' }}>
                         🔧 Assigned: {req.assignedMechanicName}
+                      </p>
+                    )}
+                    {req.paymentStatus && (
+                      <p style={{
+                        fontSize: '14px', marginTop: '8px',
+                        color: req.paymentStatus === 'accepted' ? 'var(--color-success)' : req.paymentStatus === 'paid' ? 'var(--color-warning)' : 'var(--color-text-muted)',
+                      }}>
+                        💰 Payment: {req.paymentMethod?.toUpperCase()} —{' '}
+                        <span style={{
+                          padding: '2px 8px', borderRadius: '6px', fontSize: '12px', fontWeight: '600',
+                          background: req.paymentStatus === 'accepted' ? 'rgba(0, 214, 143, 0.15)' : req.paymentStatus === 'paid' ? 'rgba(255, 199, 0, 0.15)' : 'rgba(255,255,255,0.05)',
+                          color: req.paymentStatus === 'accepted' ? '#00D68F' : req.paymentStatus === 'paid' ? '#FFC700' : 'var(--color-text-muted)',
+                        }}>
+                          {req.paymentStatus === 'accepted' ? '✅ Accepted' : req.paymentStatus === 'paid' ? '⏳ Paid' : '⏳ Pending'}
+                        </span>
                       </p>
                     )}
                   </div>

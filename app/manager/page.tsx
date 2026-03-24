@@ -28,6 +28,9 @@ interface RequestData {
   status: string;
   assignedMechanicId: string;
   assignedMechanicName: string;
+  paymentMethod: string;
+  paymentStatus: string;
+  paymentAmount: number;
   createdAt: string;
 }
 
@@ -396,6 +399,31 @@ export default function ManagerPage() {
                               <p style={{ fontSize: '13px', color: 'var(--color-text-muted)', marginTop: '4px' }}>
                                 ✉️ {req.userEmail}
                               </p>
+                            )}
+                            {/* Payment Status */}
+                            {req.paymentMethod && (
+                              <div style={{
+                                marginTop: '8px', display: 'inline-flex', alignItems: 'center', gap: '8px',
+                                padding: '6px 12px', borderRadius: '8px',
+                                background: req.paymentStatus === 'accepted'
+                                  ? 'rgba(0, 214, 143, 0.12)'
+                                  : req.paymentStatus === 'paid'
+                                    ? 'rgba(255, 199, 0, 0.12)'
+                                    : 'rgba(255, 255, 255, 0.05)',
+                                border: req.paymentStatus === 'accepted'
+                                  ? '1px solid rgba(0, 214, 143, 0.25)'
+                                  : req.paymentStatus === 'paid'
+                                    ? '1px solid rgba(255, 199, 0, 0.25)'
+                                    : '1px solid rgba(255, 255, 255, 0.1)',
+                              }}>
+                                <span style={{
+                                  fontSize: '12px', fontWeight: '600',
+                                  color: req.paymentStatus === 'accepted' ? '#00D68F' : req.paymentStatus === 'paid' ? '#FFC700' : 'var(--color-text-muted)',
+                                }}>
+                                  💰 ₹{req.paymentAmount || 500} • {req.paymentMethod.toUpperCase()} •{' '}
+                                  {req.paymentStatus === 'accepted' ? '✅ Accepted' : req.paymentStatus === 'paid' ? '⏳ Paid' : '⏳ Pending'}
+                                </span>
+                              </div>
                             )}
                           </div>
                           {req.photoUrl && (

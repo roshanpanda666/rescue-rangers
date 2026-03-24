@@ -8,12 +8,13 @@ export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id
         await dbConnect();
         const { id } = await params;
         const body = await req.json();
-        const { status, assignedMechanicId, assignedMechanicName } = body;
+        const { status, assignedMechanicId, assignedMechanicName, paymentStatus } = body;
 
         const updateData: Record<string, unknown> = {};
         if (status) updateData.status = status;
         if (assignedMechanicId) updateData.assignedMechanicId = assignedMechanicId;
         if (assignedMechanicName) updateData.assignedMechanicName = assignedMechanicName;
+        if (paymentStatus) updateData.paymentStatus = paymentStatus;
 
         const request = await Request.findByIdAndUpdate(id, updateData, { new: true });
         if (!request) {

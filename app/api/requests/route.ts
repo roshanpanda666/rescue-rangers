@@ -17,7 +17,7 @@ export async function POST(req: NextRequest) {
     try {
         await dbConnect();
         const body = await req.json();
-        const { userId, userName, userPhone, userEmail, carModel, isElectric, location, peopleCount, photoUrl, description } = body;
+        const { userId, userName, userPhone, userEmail, carModel, isElectric, location, peopleCount, photoUrl, description, paymentMethod, paymentStatus, paymentAmount } = body;
 
         if (!userId || !userName || !userPhone || !carModel || !location) {
             return NextResponse.json({ error: 'Required fields missing' }, { status: 400 });
@@ -35,6 +35,9 @@ export async function POST(req: NextRequest) {
             photoUrl: photoUrl || '',
             description: description || '',
             status: 'pending',
+            paymentMethod: paymentMethod || '',
+            paymentStatus: paymentStatus || 'pending',
+            paymentAmount: paymentAmount || 500,
         });
 
         return NextResponse.json({ success: true, request });

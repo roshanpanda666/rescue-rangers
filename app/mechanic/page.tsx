@@ -28,6 +28,9 @@ interface RequestData {
   status: string;
   assignedMechanicId: string;
   assignedMechanicName: string;
+  paymentMethod: string;
+  paymentStatus: string;
+  paymentAmount: number;
   createdAt: string;
 }
 
@@ -150,6 +153,21 @@ export default function MechanicPage() {
         fetchMechanicData(mechanic._id);
       }
       setTimeout(() => setSuccess(''), 4000);
+    } catch { /* ignore */ }
+  };
+
+  const handleAcceptPayment = async (requestId: string) => {
+    try {
+      await fetch(`/api/requests/${requestId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ paymentStatus: 'accepted' }),
+      });
+      setSuccess('Payment accepted successfully!');
+      if (mechanic) {
+        fetchAssignments(mechanic._id);
+      }
+      setTimeout(() => setSuccess(''), 3000);
     } catch { /* ignore */ }
   };
 
@@ -437,6 +455,35 @@ export default function MechanicPage() {
                       <p style={{ fontSize: '13px', color: 'var(--color-text-muted)', marginTop: '4px' }}>
                         ✉️ {job.userEmail}
                       </p>
+                    )}
+                    {/* Payment Info */}
+                    {job.paymentMethod && (
+                      <div style={{
+                        marginTop: '12px', padding: '12px 16px', borderRadius: '10px',
+                        background: job.paymentStatus === 'accepted'
+                          ? 'rgba(0, 214, 143, 0.1)'
+                          : 'rgba(255, 199, 0, 0.1)',
+                        border: job.paymentStatus === 'accepted'
+                          ? '1px solid rgba(0, 214, 143, 0.25)'
+                          : '1px solid rgba(255, 199, 0, 0.25)',
+                        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                        flexWrap: 'wrap', gap: '8px',
+                      }}>
+                        <div>
+                          <p style={{ fontSize: '13px', fontWeight: '600', color: job.paymentStatus === 'accepted' ? '#00D68F' : '#FFC700' }}>
+                            💰 Payment: ₹{job.paymentAmount || 500} via {job.paymentMethod.toUpperCase()}
+                          </p>
+                          <p style={{ fontSize: '12px', color: 'var(--color-text-muted)', marginTop: '2px' }}>
+                            Status: {job.paymentStatus === 'accepted' ? '✅ Accepted' : '⏳ Awaiting Acceptance'}
+                          </p>
+                        </div>
+                        {job.paymentStatus === 'paid' && (
+                          <button className="btn-success" onClick={() => handleAcceptPayment(job._id)}
+                            style={{ padding: '8px 16px', fontSize: '12px', whiteSpace: 'nowrap' }}>
+                            ✅ Accept Payment
+                          </button>
+                        )}
+                      </div>
                     )}
                   </div>
                   {job.photoUrl && (

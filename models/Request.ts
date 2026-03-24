@@ -14,6 +14,9 @@ export interface IRequest extends Document {
     status: 'pending' | 'accepted' | 'assigned' | 'completed';
     assignedMechanicId: string;
     assignedMechanicName: string;
+    paymentMethod: 'cash' | 'card' | 'upi' | '';
+    paymentStatus: 'pending' | 'paid' | 'accepted';
+    paymentAmount: number;
     createdAt: Date;
 }
 
@@ -31,6 +34,9 @@ const RequestSchema: Schema = new Schema({
     status: { type: String, enum: ['pending', 'accepted', 'assigned', 'completed'], default: 'pending' },
     assignedMechanicId: { type: String, default: '' },
     assignedMechanicName: { type: String, default: '' },
+    paymentMethod: { type: String, enum: ['cash', 'card', 'upi', ''], default: '' },
+    paymentStatus: { type: String, enum: ['pending', 'paid', 'accepted'], default: 'pending' },
+    paymentAmount: { type: Number, default: 500 },
     createdAt: { type: Date, default: Date.now },
 });
 
